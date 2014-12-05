@@ -13,6 +13,10 @@ int main(int argc, char **argv) {
     /* File pointer to output values. */
     FILE *acc_out, *angRate_out;
 
+    /* Number of iterations to draw plot. */
+    int iterPlot;
+    n.param("/vn200_node/iterations", iterPlot, 100);
+    
     /* Variable from get_param() that decides plotting. */
     bool plot;
     n.param("/vn200_node/plot", plot, false);
