@@ -18,9 +18,6 @@ const double g = 9.80665;
 /* Number of iterations to calculate averages. */
 const int iterAvg = 100;
 
-/* Number of iterations to draw plot. */
-const int iterPlot = 100;
-
 using namespace std;
 
 namespace vectornav{

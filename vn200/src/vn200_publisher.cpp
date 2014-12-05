@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
     /* Number of iterations to draw plot. */
     int iterPlot;
     n.param("/vn200_node/iterations", iterPlot, 100);
-    
+
     /* Variable from get_param() that decides plotting. */
     bool plot;
     n.param("/vn200_node/plot", plot, false);
@@ -59,14 +59,24 @@ int main(int argc, char **argv) {
                 imu_data.orientation.y,
                 imu_data.orientation.z);
             if(imu_data.header.seq > iterPlot){
-                FILE* p=popen("gnuplot -persist","w");
-                fprintf(p, "plot \"acc.dat\" using 1:2 title 'x' with lines, \"acc.dat\" using 1:3 title 'y' with lines, \"acc.dat\" using 1:4 title 'z' with lines\n");
+            	/* To do: Cleanup of this terrible hack. */
+                fflush(acc_out);
+                fclose(acc_out);
+                fflush(angRate_out);
+                fclose(angRate_out);
+
+                FILE *p = fopen("command.sh", "w");
+                fprintf(p, "plot '~/.ros/acc.dat' using 1:2 title 'AccX' with lines, '~/.ros/acc.dat' using 1:3 title 'AccY' with lines, '~/.ros/acc.dat' using 1:4 title 'AccZ' with lines\n");
                 fflush(p);
                 fclose(p);
-                p=popen("gnuplot -persist","w");
-                fprintf(p, "plot 'angRate.dat' using 1:2 title 'yaw' with lines, 'angRate.dat' using 1:3 title 'pitch' with lines, 'angRate.dat' using 1:4 title 'roll' with lines\n");
+                system("gnuplot -persist < ~/.ros/command.sh");
+                
+                p = fopen("command.sh", "w");
+                fprintf(p, "plot '~/.ros/angRate.dat' using 1:2 title 'AngRateX' with lines, '~/.ros/angRate.dat' using 1:3 title 'AngRateY' with lines, '~/.ros/angRate.dat' using 1:4 title 'AngRateZ' with lines\n");
                 fflush(p);
                 fclose(p);
+                system("gnuplot -persist < ~/.ros/command.sh");
+                
                 exit(0);
             }
         }
