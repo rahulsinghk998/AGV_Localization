@@ -18,10 +18,13 @@ const double g = 9.80665;
 /* Number of iterations to calculate averages. */
 const int iterAvg = 100;
 
+/* Number of iterations to draw plot. */
+const int iterPlot = 100;
+
 using namespace std;
 
 namespace vectornav{
-
+    
     class VN200{
         /* The variable object that connects to VN200. */
         Vn200 vn200;
@@ -45,13 +48,9 @@ namespace vectornav{
         VnVector3 avgAcc;
         VnYpr avgYpr;
 
-        /* File pointer to output values. */
-        //FILE * fileOutPointer;
-
         /*Publisher types. */
         sensor_msgs::Imu imu_msg;
         int sequence_id;
-
 
     public:
         VN200();

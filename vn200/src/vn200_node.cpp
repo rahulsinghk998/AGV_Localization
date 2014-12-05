@@ -11,18 +11,18 @@ namespace vectornav{
             COM_PORT,
             BAUD_RATE);
 
-        /* Make sure the user has permission to use the COM port. */
-        if (errorCode == VNERR_PERMISSION_DENIED) {
-            ROS_FATAL("Current user does not have permission to open the COM port.\n");
-            ROS_FATAL("Try running 'sudo chmod 777 /dev/ttyUSB0'.\n");
-            exit(0);
-        }
+        // /* Make sure the user has permission to use the COM port. */
+        // if (errorCode == VNERR_PERMISSION_DENIED) {
+        //     ROS_FATAL("Current user does not have permission to open the COM port.\n");
+        //     ROS_FATAL("Try running 'sudo chmod 777 /dev/ttyUSB0'.\n");
+        //     exit(0);
+        // }
 
-        /* Error encountered while connecting. Please reconnect. */
-        if (errorCode != VNERR_NO_ERROR){
-            ROS_FATAL("Error encountered when trying to connect to the sensor.\n");
-            exit(0);
-        }
+        // /* Error encountered while connecting. Please reconnect. */
+        // if (errorCode != VNERR_NO_ERROR){
+        //     ROS_FATAL("Error encountered when trying to connect to the sensor.\n");
+        //     exit(0);
+        // }
 
         /* Set cumulative initially to zero. */
         avgAcc.c0 = avgAcc.c1 = avgAcc.c2 = 0;
@@ -66,15 +66,9 @@ namespace vectornav{
         avgYpr.roll /=iterAvg;
 
         sequence_id = 0;
-
-        /* If printing to a file. */
-        // fileOutPointer= fopen("data.dat","w");
     }
 
     VN200::~VN200(){
-        
-        /* Close file that recorded all data measurements. */
-        // fclose(p);
     
         /* Discconect vn200 device. */
         errorCode = vn200_disconnect(&vn200);
@@ -82,7 +76,6 @@ namespace vectornav{
             ROS_FATAL("Error encountered when trying to disconnect from the sensor.\n");
             exit(0);
         }
-    
     }
 
     sensor_msgs::Imu VN200::getIMUData(){
@@ -136,12 +129,12 @@ namespace vectornav{
             ypr.pitch,
             ypr.roll);
 
-        // fprintf(p,"%d %lf %lf %lf\n", i, acc.c0, acc.c1, acc.c2 - g);
 
-        if (errorCode != VNERR_NO_ERROR){
-            ROS_FATAL("Error encountered.\n");
-            exit(0);
-        }
+
+        // if (errorCode != VNERR_NO_ERROR){
+        //     ROS_FATAL("Error encountered.\n");
+        //     exit(0);
+        // }
 
         imu_msg.header.seq = sequence_id++;
         imu_msg.header.stamp = ros::Time::now();
