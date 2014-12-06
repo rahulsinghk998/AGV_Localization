@@ -1,35 +1,3 @@
-/*
- * Copyright (c) 2014, Charles River Analytics, Inc.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * 1. Redistributions of source code must retain the above copyright
- * notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above
- * copyright notice, this list of conditions and the following
- * disclaimer in the documentation and/or other materials provided
- * with the distribution.
- * 3. Neither the name of the copyright holder nor the names of its
- * contributors may be used to endorse or promote products derived
- * from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
- * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
- * COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
- * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
- * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
-
 #include <ros/ros.h>
 
 #include <nav_msgs/Odometry.h>
@@ -41,105 +9,69 @@
 #include <Eigen/Dense>
 #include <fstream>
 
+//##@Rahul:The main aim of the this node is to convert gps data into <UTM> coordinate and the use this to fuse with <wheel Odometry> and <IMU> data to find the fused <GPS_Odometry>
+
 namespace RobotLocalization
 {
   class NavSatTransform
   {
     public:
+
 	  ofstream file;
       file.open("data_filtered.txt");
       //! @brief Constructor
       //!
+=======
+
+
       NavSatTransform();
 
-      //! @brief Destructor
-      //!
-      ~NavSatTransform();
-
-      //! @brief Main run loop
-      //!
+//@Rahul:<run> function is used by the <navsat_transform_node> 
       void run();
 
     private:
 
-      //! @brief Whether or not we broadcast the UTM transform
-      //!
+//@Rahul:We would set this parameter to <false> as we're not broadcasting the UTM transform.
       bool broadcastUtmTransform_;
 
-      //! @brief Parameter that specifies the magnetic decliation for the robot's
-      //! environment.
-      //!
+//@Rahul:Its the offset value of <YAW> given by Vecternov needs to be set in the <NAVSAT_TRANSFORM.LAUNCH> & <NAVSAT_TRANSFORM.CPP>
       double magneticDeclination_;
 
-      //! @brief Stores the roll we need to compute the transform
-      //!
+//@Rahul:These store the <YPR> data to be converted to <UTM> via utm transform.As <NO GPS> means no concerned to these data.
       double utmOdomTfRoll_;
-
-      //! @brief Stores the pitch we need to compute the transform
-      //!
       double utmOdomTfPitch_;
-
-      //! @brief Stores the yaw we need to compute the transform
-      //!
       double utmOdomTfYaw_;
 
-      //! @brief Whether or not the GPS fix is usable
-      //!
-      bool hasGps_;
+//@Rahul:Initially all these <Variables> are set as <FALSE> and it changes to true when <navsat_transform_node> subscribes any data.
 
-      //! @brief Signifies that we have an odometry message
-      //!
-      bool hasOdom_;
+      bool hasGps_;		//@Rahul:As we are not using GPS so it will be set as <FALSE> always as <navsat_transform_node> 				  will not subscribe any gps data as we are not publishing gps data.
+				//@Rahul:If we dont have <GPS_FIX> i.e gps so set it as <FALSE>
+      bool hasOdom_;		//@Rahul:We are using wheel Odometry so it will be set as <TRUE> when <navsat_transform_node> 					  subscribes odometry data.
+      bool hasImu_;		//@Rahul:We are using <VectorNav> for IMU so it will be set <TRUE> when IMU data is subscribed.
 
-      //! @brief Signifies that we have received an IMU message
-      //!
-      bool hasImu_;
-
-      //! @brief Whether or not we've computed a good heading
-      //!
+//@Rahul:This is set as <TRUE> when all the data has been received from all the 3 sensors namely <gps>, <imu> and <odometry> and UTM transfrom of all the sensors have been calculcated.It give whether we have good heading or not.
       bool transformGood_;
 
-      //! @brief Whether or not we have new GPS data
-      //!
-      //! We only want to compute and broadcast our transformed GPS
-      //! data if it's new. This variable keeps track of that.
-      //!
+//@Rahul:Use for Whether or not we have new GPS data.We only want to compute and broadcast our transformed GPS data if it's new. This variable keeps track of that.
       bool gpsUpdated_;
 
       //! @brief Timestamp of the latest good GPS message
       //!
       //! We assign this value to the timestamp of the odometry
       //! message that we output
-      //!
       ros::Time gpsUpdateTime_;
 
-      //! @brief IMU's roll offset
-      //!
-      //! On level ground, your IMU should read 0 roll. If it
-      //! doesn't, this (parameterized) value gives the offset
-      //!
+//@Rahul:There are <OFFSET> parameters
       double rollOffset_;
-
-      //! @brief IMU's pitch offset
-      //!
-      //! On level ground, your IMU should read 0 pitch. If it
-      //! doesn't, this (parameterized) value gives the offset
-      //!
       double pitchOffset_;
-
-      //! @brief IMU's yaw offset
-      //!
-      //! Your IMU should read 0 when facing *magnetic* north. If it
-      //! doesn't, this (parameterized) value gives the offset (NOTE: if you
-      //! have a magenetic declination, use the parameter setting for that).
-      //!
       double yawOffset_;
 
       //! @brief Whether or not to report 0 altitude
       //!
       //! If this parameter is true, we always report 0 for the altitude
       //! of the converted GPS odometry message.
-      //!
+
+//@Rahul:We set <zeroAltitude> to <FALSE> as we have <2D Localization> and our assumption is that surface is <Planar>
       bool zeroAltitude_;
 
       //! @brief Frame ID of the GPS odometry output
@@ -148,45 +80,28 @@ namespace RobotLocalization
       //!
       std::string worldFrameId_;
 
-      //! @brief Latest odometry data
-      //!
+//@Rahul:Variables to store the latest subscribed data from the node.i.e. <imu> <gps> <odometry>
       tf::Pose latestWorldPose_;
-
-      //! @brief Latest GPS data, stored as UTM coords
-      //!
       tf::Pose latestUtmPose_;
-
-      //! @brief Latest IMU orientation
-      //!
       tf::Quaternion latestOrientation_;
 
       //! @brief Covariane for most recent GPS/UTM data
-      //!
       Eigen::MatrixXd latestUtmCovariance_;
 
       //! @brief Holds the UTM->odom transform
-      //!
       tf::Transform utmWorldTransform_;
 
-      //! @brief Callback for the odom data
-      //!
+//@Rahul:CallBack functions when ever <Odom> and <gps> and <imu> data is received.
+
       void odomCallback(const nav_msgs::OdometryConstPtr& msg);
-
-      //! @brief Callback for the GPS fix data
-      //!
       void gpsFixCallback(const sensor_msgs::NavSatFixConstPtr& msg);
-
-      //! @brief Callback for the IMU data
-      //!
       void imuCallback(const sensor_msgs::ImuConstPtr& msg);
 
       //! @brief Computes the transform from the UTM frame to the
       //! odom frame
-      //!
       void computeTransform();
 
       //! @brief Prepares the GPS odometry message before sending
-      //!
       bool prepareGpsOdometry(nav_msgs::Odometry &gpsOdom);
   };
 }
