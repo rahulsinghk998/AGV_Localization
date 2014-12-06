@@ -40,12 +40,10 @@ namespace odometry_space {
 		
 		int NUM_COMMANDS;
 		OdometryFactory();
-		void updateOdometryData(const eklavya_encoder::Encoder_Data::ConstPtr&);
+		void updateOdometryData(const encoder_space::EncoderData&);
 		nav_msgs::Odometry getOdometryData();
 		void encoderCallback(nav_msgs::Odometry::ConstPtr& msg);
-		ofstream file;
-		file.open("data.txt");
-		file<<"position_x position_y\n");
+		std::ofstream file;
 	};
 	
 }

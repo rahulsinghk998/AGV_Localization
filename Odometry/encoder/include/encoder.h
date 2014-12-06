@@ -6,8 +6,6 @@
 #include <serial_lnx.h>
 #include <devices.h>
 
-
-
 namespace encoder_space {
 	
 	class EncoderData {
@@ -19,7 +17,6 @@ namespace encoder_space {
 	};
 	
 	class Encoder {
-		
 		
 		private:
 		Tserial *serialConnection;
