@@ -3,8 +3,8 @@
 
 #include <ros/ros.h>
 #include <geometry_msgs/Pose2D.h>
-#include <SerialPortLinux/serial_lnx.h>
-#include "../include/devices.h"
+#include <serial_lnx.h>
+#include <devices.h>
 
 
 
