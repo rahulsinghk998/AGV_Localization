@@ -66,15 +66,9 @@ namespace vectornav{
         avgYpr.roll /=iterAvg;
 
         sequence_id = 0;
-
-        /* If printing to a file. */
-        // fileOutPointer= fopen("data.dat","w");
     }
 
     VN200::~VN200(){
-        
-        /* Close file that recorded all data measurements. */
-        // fclose(p);
     
         /* Discconect vn200 device. */
         errorCode = vn200_disconnect(&vn200);
@@ -82,7 +76,6 @@ namespace vectornav{
             ROS_FATAL("Error encountered when trying to disconnect from the sensor.\n");
             exit(0);
         }
-    
     }
 
     sensor_msgs::Imu VN200::getIMUData(){
@@ -135,8 +128,6 @@ namespace vectornav{
             ypr.yaw,
             ypr.pitch,
             ypr.roll);
-
-        // fprintf(p,"%d %lf %lf %lf\n", i, acc.c0, acc.c1, acc.c2 - g);
 
         if (errorCode != VNERR_NO_ERROR){
             ROS_FATAL("Error encountered.\n");

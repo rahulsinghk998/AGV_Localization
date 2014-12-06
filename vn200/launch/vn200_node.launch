@@ -1,3 +1,5 @@
 <launch>
-	<node name="vn200_node" pkg="vn200" type="vn200_node" output="screen" />
+	<node name="vn200_node" pkg="vn200" type="vn200_node" output="screen">
+		<param name="plot" value="false"/>
+	</node>
 </launch>
