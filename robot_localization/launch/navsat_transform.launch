@@ -14,7 +14,11 @@
 
 <launch>
 
+<!-- @Rahul:<OFFSET> values must be changed for <roll> <pitch> <yaw> <magnetic_declination> -->
+
     <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform_node" respawn="true" output="screen">
+
+<!-- @Rahul: One extra parameter for frequency can be added.See the <NavSatTransform::run()> in navsat_transform.cpp -->
 
       <!-- Enter the magnetic declination for your location. If you don't
            know it, see http://www.ngdc.noaa.gov/geomag-web/ (make sure to
@@ -33,6 +37,8 @@
            enter the offset here (desired_value = offset + sensor_raw_value). -->
       <param name="yaw_offset" value="0"/>
 
+<!-- @Rahul: By default <zero_altitute> and <broadcast_utm_transform> is set as <FALSE> and setting <broadcast_utm_transform> to <TRUE> would start publishing <UTM_COORDINATES> data to <navsat_transform_node> -->
+ 
       <!-- If this is true, the altitude is set to 0 in the output odometry message -->
       <param name="zero_altitude" value="false"/>
 
