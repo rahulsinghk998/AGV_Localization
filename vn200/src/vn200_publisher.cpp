@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
     vectornav::VN200* vn200 = new vectornav::VN200();
 
     /* File pointer to output values. */
-    FILE *acc_out, *angRate_out;
+    FILE *acc_out, *angRate_out, *ypr_out;
 
     /* Number of iterations to draw plot. */
     int iterPlot;
@@ -31,6 +31,7 @@ int main(int argc, char **argv) {
     if(plot) {
         acc_out = fopen("acc.dat","w");
         angRate_out = fopen("angRate.dat","w");
+        ypr_out = fopen("ypr.dat","w");
     }
     
     sensor_msgs::Imu imu_data;
@@ -55,15 +56,23 @@ int main(int argc, char **argv) {
                 imu_data.linear_acceleration.z);
             fprintf(angRate_out,"%d %lf %lf %lf\n",
                 imu_data.header.seq,
+                imu_data.angular_velocity.x,
+                imu_data.angular_velocity.y,
+                imu_data.angular_velocity.z);
+            fprintf(ypr_out,"%d %lf %lf %lf %lf\n",
+                imu_data.header.seq,
                 imu_data.orientation.x,
                 imu_data.orientation.y,
-                imu_data.orientation.z);
+                imu_data.orientation.z,
+                imu_data.orientation.w);
             if(imu_data.header.seq > iterPlot){
             	/* To do: Cleanup of this terrible hack. */
                 fflush(acc_out);
                 fclose(acc_out);
                 fflush(angRate_out);
                 fclose(angRate_out);
+                fflush(ypr_out);
+                fclose(ypr_out);
 
                 FILE *p = fopen("command.sh", "w");
                 fprintf(p, "plot '~/.ros/acc.dat' using 1:2 title 'AccX' with lines, '~/.ros/acc.dat' using 1:3 title 'AccY' with lines, '~/.ros/acc.dat' using 1:4 title 'AccZ' with lines\n");
@@ -73,6 +82,12 @@ int main(int argc, char **argv) {
                 
                 p = fopen("command.sh", "w");
                 fprintf(p, "plot '~/.ros/angRate.dat' using 1:2 title 'AngRateX' with lines, '~/.ros/angRate.dat' using 1:3 title 'AngRateY' with lines, '~/.ros/angRate.dat' using 1:4 title 'AngRateZ' with lines\n");
+                fflush(p);
+                fclose(p);
+                system("gnuplot -persist < ~/.ros/command.sh");
+
+                p = fopen("command.sh", "w");
+                fprintf(p, "plot '~/.ros/ypr.dat' using 1:2 title 'QX' with lines, '~/.ros/ypr.dat' using 1:3 title 'QY' with lines, '~/.ros/ypr.dat' using 1:4 title 'QZ' with lines\n");
                 fflush(p);
                 fclose(p);
                 system("gnuplot -persist < ~/.ros/command.sh");
@@ -87,5 +102,6 @@ int main(int argc, char **argv) {
         fclose(acc_out);
         fclose(angRate_out);
     }
+    delete(vn200);
     return 0;
 }

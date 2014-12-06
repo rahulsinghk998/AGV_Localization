@@ -122,6 +122,13 @@ namespace vectornav{
             acceleration.c1,
             acceleration.c2);
         ROS_INFO("IMU Solution:\n"
+            "  Angular velocity.x:     %+#7.2f\n"
+            "  Angular velocity.y:     %+#7.2f\n"
+            "  Angular velocity.z:     %+#7.2f\n",
+            angularRate.c0,
+            angularRate.c1,
+            angularRate.c2);
+        ROS_INFO("IMU Solution:\n"
             "  Yaw:                    %+#7.2f\n"
             "  Pitch:                  %+#7.2f\n"
             "  Roll:                   %+#7.2f\n",
