@@ -39,13 +39,15 @@
 #include <tf/transform_datatypes.h>
 
 #include <Eigen/Dense>
+#include <fstream>
 
 namespace RobotLocalization
 {
   class NavSatTransform
   {
     public:
-
+	  ofstream file;
+      file.open("data_filtered.txt");
       //! @brief Constructor
       //!
       NavSatTransform();

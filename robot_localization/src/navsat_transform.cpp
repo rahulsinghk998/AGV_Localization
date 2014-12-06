@@ -67,6 +67,14 @@ namespace RobotLocalization
 
   void NavSatTransform::odomCallback(const nav_msgs::OdometryConstPtr& msg)
   {
+	file<<msg->pose.pose.position.x<<" "<<msg->pose.pose.position.y<<"\n";
+    char * commandsForGnuplot[] = {"set title \"TITLEEEEE\"", "plot 'data_filtered.txt' with lines"};
+    
+    FILE * gnuplotPipe = popen ("gnuplot -persistent", "w");
+    int i;
+    for (i=0; i < NUM_COMMANDS; i++){
+		fprintf(gnuplotPipe, "%s \n", commandsForGnuplot[i]); //Send commands to gnuplot one by one.
+	}
     tf::poseMsgToTF(msg->pose.pose, latestWorldPose_);
     worldFrameId_ = msg->header.frame_id;
     hasOdom_ = true;
@@ -262,6 +270,7 @@ namespace RobotLocalization
     utmTransformStamped.child_frame_id_ = "utm";
 
     ros::Rate rate(frequency);
+
     while(ros::ok())
     {
       ros::spinOnce();

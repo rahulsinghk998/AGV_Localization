@@ -13,6 +13,7 @@ void encoderCallback(const eklavya_encoder::Encoder_Data::ConstPtr& msg) {
     ROS_INFO("Encoder data received...");
 
     odometry_factory->updateOdometryData(msg);
+    odometry_factory->NUM_COMMANDS++;
 
 }
 
@@ -37,7 +38,13 @@ int main(int argc, char **argv) {
         ros::spinOnce();
 
         odometry_message = odometry_factory->getOdometryData();
-
+        odometry_factory.file<<odometry_message.pose.pose.position_x<<"\t"<<odometry_message.pose.pose.position_y<<"\n";
+		char * commandsForGnuplot[] = {"set title \"TITLEEEEE\"", "plot 'data.txt' with lines"};
+		FILE * gnuplotPipe = popen ("gnuplot -persistent", "w");
+		int i;
+		for (i=0; i < odometry_factory->NUM_COMMANDS; i++){
+			fprintf(gnuplotPipe, "%s \n", commandsForGnuplot[i]); //Send commands to gnuplot one by one.
+		}
         odometry_publisher.publish(odometry_message);
 
         publisher_rate.sleep();

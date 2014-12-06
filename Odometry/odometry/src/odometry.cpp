@@ -1,4 +1,6 @@
 #include <eklavya_odometry/odometry.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 namespace odometry_space {
 

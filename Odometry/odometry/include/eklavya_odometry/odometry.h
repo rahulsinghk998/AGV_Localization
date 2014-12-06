@@ -5,6 +5,7 @@
 #include <encoder/encoder.h>
 #include <tf/tf.h>
 #include <tf/transform_broadcaster.h>
+#include <fstream>
 
 #define wheel_radius_meter 0.1016
 #define PI 3.1415926535
@@ -36,11 +37,15 @@ namespace odometry_space {
 		double yaw_rate;
 		
 		public:
+		
+		NUM_COMMANDS = 0;
 		OdometryFactory();
 		void updateOdometryData(const eklavya_encoder::Encoder_Data::ConstPtr&);
 		nav_msgs::Odometry getOdometryData();
 		void encoderCallback(nav_msgs::Odometry::ConstPtr& msg);
-		
+		ofstream file;
+		file.open("data.txt");
+		file<<"position_x position_y\n");
 	};
 	
 }
