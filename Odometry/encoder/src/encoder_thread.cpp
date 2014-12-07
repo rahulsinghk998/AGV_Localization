@@ -1,12 +1,13 @@
 #include <encoder/encoder.h>
+#include <geometry_msgs/Point.h>
 
 int main() {
     
-    encoder_space::Encoder encoder(ENCODER_COM_PORT, ENCODER_BAUD_RATE);
-    encoder_space::EncoderData encoderData;
+    encoder::Encoder encoder(ENCODER_COM_PORT, ENCODER_BAUD_RATE);
+    encoder::EncoderData encoderData;
 
     ros::NodeHandle n;
-    ros::Publisher encoder_pub = n.advertise<encoder_space::EncoderData>("encoderData", 1000);
+    ros::Publisher encoder_pub = n.advertise<geometry_msgs::Point>("encoderData", 1000);
    
     ros::Rate loop_rate(10);
 
@@ -14,7 +15,11 @@ int main() {
         /* Fetch data from Shaft Encoder and load it in local vars */
         encoderData = encoder.fetchEncoderData();
 
-        encoder_pub.publish(encoderData);
+        geometry_msgs::Point msg;
+        msg.x = encoderData.leftCount;
+        msg.y = encoderData.rightCount;
+
+        encoder_pub.publish(msg);
 
         ros::spinOnce();
         loop_rate.sleep();

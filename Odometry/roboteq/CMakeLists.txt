@@ -101,8 +101,8 @@ catkin_package(
 		src/roboteq_server.cpp src/RoboteqDevice.cpp)
   add_executable(client 
   		src/roboteq_client.cpp)
-  add_executable(tester
-  		src/test_command_publisher.cpp)
+# add_executable(tester
+# 		src/test_command_publisher.cpp)
   add_executable(encoder_client 
   		src/roboteq_encoder_client.cpp)
   add_executable(eklavya_controller_client 

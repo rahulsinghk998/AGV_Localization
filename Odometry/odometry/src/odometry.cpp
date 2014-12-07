@@ -1,4 +1,4 @@
-#include <eklavya_odometry/odometry.h>
+#include <odometry/odometry.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -25,14 +25,12 @@ namespace odometry_space {
         }
         wheel_separation = 0.45;
         scaling_factor = (wheel_radius_meter / 60.0) * 2.0 * PI;
-
-        file.open("data.txt");
-        file<<"position_x position_y\n";
     }
 
-    void OdometryFactory::updateOdometryData(const encoder_space::EncoderData& msg) {
-        velocity_x = (msg.leftCount + msg.rightCount) * (scaling_factor) / 2;
-        yaw_rate = (msg.rightCount - msg.leftCount) * (scaling_factor) / (wheel_separation);
+    void OdometryFactory::updateOdometryData(const geometry_msgs::Point& msg) {
+        //To do: Change float variables to integers.
+        velocity_x = (msg.x + msg.y) * (scaling_factor) / 2;
+        yaw_rate = (msg.y - msg.x) * (scaling_factor) / (wheel_separation);
     }
 
     nav_msgs::Odometry OdometryFactory::getOdometryData() {

@@ -44,7 +44,7 @@ find_package(Boost REQUIRED COMPONENTS system)
 #   FILES
 #   Message1.msg
 #   Message2.msg
-# )
+#  )
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -61,11 +61,10 @@ find_package(Boost REQUIRED COMPONENTS system)
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-#   geometry_msgs
-# )
+#  generate_messages(
+#  DEPENDENCIES
+#    std_msgs  # Or other packages containing msgs
+#  )
 
 ###################################
 ## catkin specific configuration ##
@@ -79,7 +78,7 @@ find_package(Boost REQUIRED COMPONENTS system)
 catkin_package(
    INCLUDE_DIRS include
 #  LIBRARIES encoder
-#  CATKIN_DEPENDS other_catkin_pkg
+#  CATKIN_DEPENDS
 #  DEPENDS system_lib
 )
 
@@ -105,7 +104,6 @@ include_directories(include)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(encoder_node encoder_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
   target_link_libraries(encoder

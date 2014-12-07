@@ -1,11 +1,12 @@
 #ifndef _ODOMETRY_H
 #define _ODOMETRY_H
 
+#include <ros/ros.h>
 #include <nav_msgs/Odometry.h>
-#include <encoder/encoder.h>
+#include <geometry_msgs/Point.h>
+#include <geometry_msgs/Quaternion.h>
 #include <tf/tf.h>
 #include <tf/transform_broadcaster.h>
-#include <fstream>
 
 #define wheel_radius_meter 0.1016
 #define PI 3.1415926535
@@ -38,12 +39,11 @@ namespace odometry_space {
 		
 		public:
 		
-		int NUM_COMMANDS;
 		OdometryFactory();
-		void updateOdometryData(const encoder_space::EncoderData&);
+		void updateOdometryData(const geometry_msgs::Point&);
 		nav_msgs::Odometry getOdometryData();
 		void encoderCallback(nav_msgs::Odometry::ConstPtr& msg);
-		std::ofstream file;
+
 	};
 	
 }

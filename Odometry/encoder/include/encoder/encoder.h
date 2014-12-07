@@ -2,11 +2,11 @@
 #define _ENCODER_H
 
 #include <ros/ros.h>
-#include <geometry_msgs/Pose2D.h>
 #include <encoder/serial_lnx.h>
 #include <encoder/devices.h>
 
-namespace encoder_space {
+
+namespace encoder {
 	
 	class EncoderData {
 		
