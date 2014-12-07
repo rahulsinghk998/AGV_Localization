@@ -9,7 +9,7 @@
 
 /* Change the connection settings to your configuration. */
 /* Remember to provide su permissions: sudo chmod 777 /dev/ttyUSB0 */
-const char* const COM_PORT = "//dev//ttyUSB0";
+const char* const COM_PORT = "//dev//ttyUSB1";
 const int BAUD_RATE = 115200;
 
 /* Value of acceleration due to gravity used to nullify gravity compensation. */

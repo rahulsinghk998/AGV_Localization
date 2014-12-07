@@ -92,15 +92,12 @@ int main(int argc, char **argv) {
                 fclose(p);
                 system("gnuplot -persist < ~/.ros/command.sh");
                 
+                delete(vn200);
                 exit(0);
             }
         }
         publisher_rate.sleep();
 
-    }
-    if(plot == 1){
-        fclose(acc_out);
-        fclose(angRate_out);
     }
     delete(vn200);
     return 0;

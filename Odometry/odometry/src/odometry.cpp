@@ -25,11 +25,14 @@ namespace odometry_space {
         }
         wheel_separation = 0.45;
         scaling_factor = (wheel_radius_meter / 60.0) * 2.0 * PI;
+
+        file.open("data.txt");
+        file<<"position_x position_y\n";
     }
 
-    void OdometryFactory::updateOdometryData(const eklavya_encoder::Encoder_Data::ConstPtr& msg) {
-        velocity_x = (msg->left_count + msg->right_count) * (scaling_factor) / 2;
-        yaw_rate = (msg->right_count - msg->left_count) * (scaling_factor) / (wheel_separation);
+    void OdometryFactory::updateOdometryData(const encoder_space::EncoderData& msg) {
+        velocity_x = (msg.leftCount + msg.rightCount) * (scaling_factor) / 2;
+        yaw_rate = (msg.rightCount - msg.leftCount) * (scaling_factor) / (wheel_separation);
     }
 
     nav_msgs::Odometry OdometryFactory::getOdometryData() {

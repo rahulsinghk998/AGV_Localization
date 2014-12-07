@@ -2,7 +2,7 @@
 #define _ODOMETRY_H
 
 #include <nav_msgs/Odometry.h>
-#include <encoder/encoder.h>
+#include <encoder.h>
 #include <tf/tf.h>
 #include <tf/transform_broadcaster.h>
 #include <fstream>
@@ -27,7 +27,7 @@ namespace odometry_space {
 		geometry_msgs::Quaternion quaternion;
 		
 		double wheel_separation;
-    double scaling_factor;
+        double scaling_factor;
 
 		double position_x;
 		double position_y;
@@ -38,14 +38,12 @@ namespace odometry_space {
 		
 		public:
 		
-		NUM_COMMANDS = 0;
+		int NUM_COMMANDS;
 		OdometryFactory();
-		void updateOdometryData(const eklavya_encoder::Encoder_Data::ConstPtr&);
+		void updateOdometryData(const encoder_space::EncoderData&);
 		nav_msgs::Odometry getOdometryData();
 		void encoderCallback(nav_msgs::Odometry::ConstPtr& msg);
-		ofstream file;
-		file.open("data.txt");
-		file<<"position_x position_y\n");
+		std::ofstream file;
 	};
 	
 }
