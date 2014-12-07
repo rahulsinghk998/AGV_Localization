@@ -4,10 +4,10 @@ project(roboteq)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED roscpp std_msgs message_generation)
+find_package(catkin REQUIRED rosconsole roscpp std_msgs message_generation genmsg gencpp)
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED COMPONENTS system)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -64,7 +64,7 @@ find_package(catkin REQUIRED roscpp std_msgs message_generation)
   generate_messages(
     DEPENDENCIES
     std_msgs  # Or other packages containing msgs
-  )
+ )
 
 ###################################
 ## catkin specific configuration ##
@@ -79,7 +79,7 @@ catkin_package(
    INCLUDE_DIRS include
 #  LIBRARIES roboteq
    CATKIN_DEPENDS message_runtime
-#  DEPENDS system_lib
+   DEPENDS rosconsole roscpp std_msgs message_generation gencpp genmsg
 )
 
 ###########
@@ -88,7 +88,7 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-  include_directories(include)
+  include_directories(include ${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
 
 ## Declare a cpp library
 # add_library(roboteq
@@ -101,8 +101,8 @@ catkin_package(
 		src/roboteq_server.cpp src/RoboteqDevice.cpp)
   add_executable(client 
   		src/roboteq_client.cpp)
-# add_executable(tester
-# 		src/test_command_publisher.cpp)
+  add_executable(tester
+  		src/test_command_publisher.cpp)
   add_executable(encoder_client 
   		src/roboteq_encoder_client.cpp)
   add_executable(eklavya_controller_client 
@@ -110,13 +110,32 @@ catkin_package(
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(roboteq_node roboteq_generate_messages_cpp)
+# add_dependencies(roboteq_node roboteq_generate_messages_cpp roboteq_gencpp)
+  add_dependencies(server ${roboteq_EXPORTED_TARGETS} roboteq_generate_messages_cpp roboteq_generate_services_cpp roboteq_gencpp)
+  add_dependencies(client roboteq_generate_messages_cpp roboteq_gencpp)
+  add_dependencies(tester roboteq_generate_messages_cpp roboteq_gencpp)
+  add_dependencies(encoder_client roboteq_generate_messages_cpp roboteq_gencpp)
+  add_dependencies(eklavya_controller_client roboteq_generate_messages_cpp roboteq_gencpp)
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(roboteq_node
 #   ${catkin_LIBRARIES}
 # )
-
+  target_link_libraries(server
+    ${catkin_LIBRARIES}
+  )
+  target_link_libraries(client
+    ${catkin_LIBRARIES}
+  )
+  target_link_libraries(tester
+    ${catkin_LIBRARIES}
+  )
+  target_link_libraries(encoder_client
+    ${catkin_LIBRARIES}
+  )
+  target_link_libraries(eklavya_controller_client
+    ${catkin_LIBRARIES}
+  )
 #############
 ## Install ##
 #############

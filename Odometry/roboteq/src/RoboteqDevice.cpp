@@ -8,9 +8,8 @@
 #include <sstream>
 #include <unistd.h> // To be included in case of any load
 
-#include "eklavya_roboteq/RoboteqDevice.h"
-#include "eklavya_roboteq/ErrorCodes.h"
-
+#include <roboteq/RoboteqDevice.h>
+#include <roboteq/ErrorCodes.h>
 
 using namespace std;
 

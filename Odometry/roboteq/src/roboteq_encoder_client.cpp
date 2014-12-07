@@ -1,5 +1,5 @@
-#include "ros/ros.h"
-#include "eklavya_roboteq/GetSpeed.h"
+#include <ros/ros.h>
+#include <roboteq/GetSpeed.h>
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "motor_speed_client");
