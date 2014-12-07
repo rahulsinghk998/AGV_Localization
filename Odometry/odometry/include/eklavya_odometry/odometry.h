@@ -2,7 +2,7 @@
 #define _ODOMETRY_H
 
 #include <nav_msgs/Odometry.h>
-#include <encoder.h>
+#include <encoder/encoder.h>
 #include <tf/tf.h>
 #include <tf/transform_broadcaster.h>
 #include <fstream>

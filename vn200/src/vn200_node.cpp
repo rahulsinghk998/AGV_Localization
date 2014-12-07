@@ -1,4 +1,4 @@
-#include <vn200_node.hpp>
+#include <vn_200/vn200_node.hpp>
 
 using namespace vectornav;
 

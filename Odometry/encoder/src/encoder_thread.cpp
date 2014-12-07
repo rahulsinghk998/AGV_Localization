@@ -1,4 +1,4 @@
-#include <encoder.h>
+#include <encoder/encoder.h>
 
 int main() {
     
@@ -6,7 +6,7 @@ int main() {
     encoder_space::EncoderData encoderData;
 
     ros::NodeHandle n;
-    ros::Publisher encoder_pub = n.advertise<geometry_msgs::Pose2D>("encoderData", 1000);
+    ros::Publisher encoder_pub = n.advertise<encoder_space::EncoderData>("encoderData", 1000);
    
     ros::Rate loop_rate(10);
 
@@ -14,9 +14,7 @@ int main() {
         /* Fetch data from Shaft Encoder and load it in local vars */
         encoderData = encoder.fetchEncoderData();
 
-
-        geometry_msgs::Pose2D encoder_msg;
-        encoder_pub.publish(encoder_msg);
+        encoder_pub.publish(encoderData);
 
         ros::spinOnce();
         loop_rate.sleep();
