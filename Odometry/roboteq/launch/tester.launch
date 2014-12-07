@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="roboteq" type="tester" name="tester" args="2" output="screen" cwd="node"/>
+</launch>
+  

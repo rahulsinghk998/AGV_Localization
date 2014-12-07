@@ -1,6 +1,6 @@
-#include <encoder.h>
+#include <encoder/encoder.h>
 
-namespace encoder_space {
+namespace encoder {
 	
 	Encoder::Encoder(char *port, int baudRate) {
 		

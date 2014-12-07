@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <vndevice.h>
+#include <vn_200/vndevice.h>
 
 /* Defines and constants. ****************************************************/
 
