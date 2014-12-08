@@ -1,5 +1,6 @@
 #include <ros/ros.h>
-#include <eklavya_roboteq/RoboteqDevice.h>
+#include <roboteq/SetSpeed.h>
+#include <roboteq/RoboteqDevice.h>
 
 int main(int argc, char **argv)
 {
@@ -11,8 +12,8 @@ int main(int argc, char **argv)
     }
   
     ros::NodeHandle n;
-    ros::ServiceClient client = n.serviceClient<eklavya_roboteq::SetSpeed>("motor_controller");
-    eklavya_roboteq::SetSpeed srv;
+    ros::ServiceClient client = n.serviceClient<roboteq::SetSpeed>("motor_controller");
+    roboteq::SetSpeed srv;
     srv.request.left_speed = atoll(argv[1]);
     srv.request.right_speed = atoll(argv[2]);
     if (client.call(srv))

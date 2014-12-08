@@ -2,20 +2,20 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "ros/ros.h"
-#include "../srv_gen/cpp/include/eklavya_roboteq/SetSpeed.h"
-#include "../srv_gen/cpp/include/eklavya_roboteq/GetSpeed.h"
+#include <ros/ros.h>
+#include <roboteq/SetSpeed.h>
+#include <roboteq/GetSpeed.h>
 
-#include "eklavya_roboteq/RoboteqDevice.h"
-#include "eklavya_roboteq/ErrorCodes.h"
-#include "eklavya_roboteq/Constants.h"
+#include <roboteq/RoboteqDevice.h>
+#include <roboteq/ErrorCodes.h>
+#include <roboteq/Constants.h>
 
 using namespace std;
 
 RoboteqDevice device;
 int status = 0;
 
-bool setSpeed(eklavya_roboteq::SetSpeed::Request &req, eklavya_roboteq::SetSpeed::Response &res) {
+bool setSpeed(roboteq::SetSpeed::Request &req, roboteq::SetSpeed::Response &res) {
     //ROS_INFO("request: Left motor speed = %ld, Right motor speed = %ld", (long int) req.left_speed, (long int) req.right_speed);
 
     res.code = 0;
@@ -60,7 +60,7 @@ bool setSpeed(eklavya_roboteq::SetSpeed::Request &req, eklavya_roboteq::SetSpeed
     return true;
 }
 
-bool getSpeed(eklavya_roboteq::GetSpeed::Request &req, eklavya_roboteq::GetSpeed::Response &res) {
+bool getSpeed(roboteq::GetSpeed::Request &req, roboteq::GetSpeed::Response &res) {
     ROS_INFO("START START START START");
     ROS_INFO("request: Encoder speed data.");
 
