@@ -48,7 +48,7 @@ add_library(ukf src/ukf.cpp)
 add_executable(ekf_localization_node src/ekf_localization_node.cpp)
 add_executable(ukf_localization_node src/ukf_localization_node.cpp)
 #add_executable(utm_transform_node src/utm_transform_node.cpp)
-#dd_executable(navsat_transform_node src/navsat_transform_node.cpp)
+#add_executable(navsat_transform_node src/navsat_transform_node.cpp)
 
 target_link_libraries(ekf filter_base)
 target_link_libraries(ukf filter_base)
@@ -73,7 +73,8 @@ target_link_libraries(ukf_localization_node ukf filter_base ${catkin_LIBRARIES})
 # )
 
 ## Mark executables and/or libraries for installation
-install(TARGETS filter_base ekf ekf_localization_node ukf ukf_localization_node
+install(TARGETS filter_base ekf ekf_localization_node ukf ukf_localization_node 
+#utm_transform_node navsat_transform navsat_transform_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
