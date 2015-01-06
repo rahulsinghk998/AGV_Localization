@@ -1,7 +1,6 @@
 #include <encoder/encoder.h>
 #include <geometry_msgs/Point.h>
 
-//This node publishes the <ENCODER DATA> on the topic <"encoderData">
 int main() {
     
     encoder::Encoder encoder(ENCODER_COM_PORT, ENCODER_BAUD_RATE);

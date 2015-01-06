@@ -107,7 +107,7 @@ catkin_package(
   add_executable(server src/roboteq_server.cpp src/RoboteqDevice.cpp)
   add_executable(client src/roboteq_client.cpp)
 #@Rahul:As this file is irrelevent to our use so I've have commented it.
-  add_executable(tester src/test_command_publisher.cpp)
+#add_executable(tester src/test_command_publisher.cpp)
 #  add_executable(encoder_client src/roboteq_encoder_client.cpp)
   add_executable(eklavya_controller_client src/command_subscriber_roboteq_client.cpp)
 
@@ -116,13 +116,13 @@ catkin_package(
 # add_dependencies(roboteq_node roboteq_generate_messages_cpp roboteq_gencpp)
   add_dependencies(server ${roboteq_EXPORTED_TARGETS} roboteq_generate_messages_cpp roboteq_generate_services_cpp roboteq_gencpp)
   add_dependencies(client roboteq_generate_messages_cpp roboteq_gencpp)
-  add_dependencies(tester roboteq_generate_messages_cpp roboteq_gencpp)
+#  add_dependencies(tester roboteq_generate_messages_cpp roboteq_gencpp)
 #  add_dependencies(encoder_client roboteq_generate_messages_cpp roboteq_gencpp)
   add_dependencies(eklavya_controller_client roboteq_generate_messages_cpp roboteq_gencpp)
 
   target_link_libraries(server ${catkin_LIBRARIES})
   target_link_libraries(client ${catkin_LIBRARIES})
-  target_link_libraries(tester ${catkin_LIBRARIES})
+#  target_link_libraries(tester ${catkin_LIBRARIES})
 #  target_link_libraries(encoder_client ${catkin_LIBRARIES})
   target_link_libraries(eklavya_controller_client ${catkin_LIBRARIES})
 

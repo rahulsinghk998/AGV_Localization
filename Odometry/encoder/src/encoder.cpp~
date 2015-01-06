@@ -7,7 +7,6 @@ namespace encoder {
 //The Constructor opens the port for communication.
 //It takes the arguments of ROBOTEQ port and BAUDRATE.
 //**Note: The taken arguments are not passed while opening the port.CHECK the 3rd line below.
-//The <BOT_COM_PORT> and <BOT_BAUD_RATE> are defined in <DEVICES.h>
 
 	Encoder::Encoder(char *port, int baudRate) {
 		serialConnection = new Tserial();

@@ -2,8 +2,6 @@
 #include <geometry_msgs/Twist.h>
 #include <roboteq/SetSpeed.h>
 
-//@Rahul:I don't understand why the <pointers> to <NodeHandle> and <Serviceclient> has been used
-
 ros::NodeHandle *n;
 ros::ServiceClient *client;
 
@@ -13,9 +11,8 @@ void commandVelocityCallback(const geometry_msgs::Twist::ConstPtr& msg) {
 
     int sum = msg->linear.x * 100;
     int diff = (msg->angular.z * 55) / 2;
-
-//@Rahul:Check:Why is <right_speed> = <sum+diff> and <left_speed> = <sum-diff> 
-
+    //srv.request.left_speed = (sum + diff) * 10;
+    //srv.request.right_speed = (sum - diff) * 10;
     srv.request.right_speed = (sum + diff) * 10;
     srv.request.left_speed = (sum - diff) * 10;
     std::cout << "  !m  " << srv.request.left_speed << " " << srv.request.right_speed << std::endl;

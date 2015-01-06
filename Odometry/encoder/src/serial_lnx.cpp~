@@ -17,7 +17,7 @@ Tserial::Tserial()
 //Connects to the Default USB port i.e. <ttyUSB0>
 int Tserial::connect()
 {
-    return connect("/dev/ttyUSB0");
+    return connect("//dev//ttyUSB0");
 }
 
 //Function for connecting to the serial port and requires the argument of <PORT> <BAUDRATE> <PARITY> and one more parameter which is <**VERBOSE>

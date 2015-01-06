@@ -21,7 +21,6 @@ class Tserial {
 	public:
 	        Tserial();
             	~Tserial();
-//I believe there is no use of below 2 <connect> functions as <encoder.cpp> uses only the 3rd connect function in the publishiing the data from the encoder.
 		int connect ();
 		int connect (char * device);
 		int  connect  (char *device, int rate_arg, serial_parity parity_arg,bool verbose=false);

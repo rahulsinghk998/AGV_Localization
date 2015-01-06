@@ -1,0 +1,6 @@
+This File is regarding the Odometry Package which consists of 3 other packages.
+	1.encoder
+	2.odometry
+	3.roboteq
+
+The encoder

@@ -4,7 +4,6 @@
 
 namespace odometry_space {
 
-//The constructor initializes the variables and the covariance matrix.
     OdometryFactory::OdometryFactory() {
 	sequence_id = 0;
 
@@ -29,15 +28,12 @@ namespace odometry_space {
         scaling_factor = (wheel_radius_meter / 60.0) * 2.0 * PI;
         }
 
-//The Function changes the encoder data into our interpretation of the bot.
-//The endocer data is change in terms of bot parameters.
     void OdometryFactory::updateOdometryData(const geometry_msgs::Point& msg) {
         //To do: Change float variables to integers.
         velocity_x = (msg.x + msg.y) * (scaling_factor) / 2;
         yaw_rate = (msg.y - msg.x) * (scaling_factor) / (wheel_separation);
     }
 
-//The Function give the <Odometry> message which contains all the information about the 12 states of the bot.
     nav_msgs::Odometry OdometryFactory::getOdometryData() {
         nav_msgs::Odometry odometry_message;
 

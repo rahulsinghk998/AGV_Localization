@@ -1,0 +1,6 @@
+This File is regarding the Odometry Package which consists of 3 other packages.
+	1.encoder
+	2.odometry
+	3.roboteq
+
+The encoder and odometry package are of no use and the roboteq package is the package which we need as its contains all the necessary functions we require and this roboteq package is given the by the roboteq manufactures.So, Conclusion:: To set motor speed and get motor speed we only need <roboteq> package.

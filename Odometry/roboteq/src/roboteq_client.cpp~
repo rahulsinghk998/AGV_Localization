@@ -10,7 +10,6 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "motor_controller_client");
 
 //@Rahul:I don't understand the <#3> argument I.E. why the program should quit or not set the motor speed if the argument is 3.
-
     if (argc != 3)
     {
       ROS_INFO("usage: motor_controller_client");
