@@ -6,7 +6,7 @@
 int main(int argc, char **argv) {
     ros::init(argc, argv, "motor_speed_client");
 
-//@Rahul:Again why the <1> is used for exiting the program.
+//@Rahul:Again why the <1> is used for exiting the program.NEED TO <CHECK THE ERROR CODES>
 
     if (argc != 1) {
         ROS_INFO("usage: motor_speed_client");

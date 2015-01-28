@@ -1,4 +1,0 @@
-<launch>
-	<node name="encoder" pkg="encoder" type="encoder" output="screen">
-	</node>
-</launch>
