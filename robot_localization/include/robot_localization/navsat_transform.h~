@@ -21,7 +21,6 @@ namespace RobotLocalization
       //file.open("data_filtered.txt");
 
       NavSatTransform();
-      ~NavSatTransform();
 
 //@Rahul:<run> function is used by the <navsat_transform_node> 
       void run();

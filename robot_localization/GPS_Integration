@@ -1,0 +1,3 @@
+=>navsat_transform_node, that transforms GPS data into a frame that is consistent with your robot's starting pose (position and orientation). This greatly simplifies inclusion of GPS data
+
+=>
