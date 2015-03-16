@@ -37,8 +37,6 @@ void callback(const nav_msgs::Odometry::ConstPtr& msg)
         i=0;
     double x = msg->pose.pose.position.x, y = msg->pose.pose.position.y, yaw = msg->twist.twist.angular.z;
     double to_x, to_y;
-    //to_x = x + 1.5*cos(1.57+yaw);
-    //to_y = y + 1.5*sin(1.57+yaw);
     to_x = x + 1.5*cos(yaw);
     to_y = y + 1.5*sin(yaw);
     static FILE * gnuplotPipe = popen("gnuplot -persistent", "w");

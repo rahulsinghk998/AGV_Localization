@@ -50,7 +50,6 @@ namespace vectornav{
         sensor_msgs::Imu imu_msg;
 	sensor_msgs::NavSatFix	gps_msg;
         int sequence_id;
-	int sequence_id_gps;
 
     public:
         VN200();

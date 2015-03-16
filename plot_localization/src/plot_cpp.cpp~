@@ -33,7 +33,7 @@ void callback(const nav_msgs::Odometry::ConstPtr& msg)
     fprintf(gnuplotPipe, "set xlabel 'Position on x-axis(in metres)'\n");
     fprintf(gnuplotPipe, "set title 'Raw wheel odometry data'\n");
     fprintf(gnuplotPipe, "set ylabel 'Position on y-axis(in metres)'\n");
-    fprintf(gnuplotPipe,"set xrange [-150:150]\n");
+    fprintf(gnuplotPipe, "set xrange [-150:150]\n");
     fprintf(gnuplotPipe, "set yrange [-150:150]\n");
     fprintf(gnuplotPipe, "set arrow from %f, %f to %f, %f\n", x, y, to_x, to_y);
     fprintf(gnuplotPipe, "plot 'Odometry-data.txt' with lines\n");

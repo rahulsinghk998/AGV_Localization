@@ -46,15 +46,15 @@ typedef uint32_t VN_ERROR_CODE;
  *
  * @{
  */
-#define VNERR_NO_ERROR					0	/**< No error occurred. */
-#define VNERR_UNKNOWN_ERROR				1	/**< An unknown error occurred. */
-#define VNERR_NOT_IMPLEMENTED				2	/**< The operation is not implemented. */
-#define VNERR_TIMEOUT					3	/**< Operation timed out. */
-#define VNERR_INVALID_VALUE				4	/**< Invalid value was provided. */
-#define VNERR_FILE_NOT_FOUND				5	/**< The file was not found. */
-#define VNERR_NOT_CONNECTED				6	/**< Not connected to the sensor. */
-#define VNERR_PERMISSION_DENIED				7	/**< Permission is denied. */
-#define VNERR_SENSOR_HARD_FAULT				8	/**< Sensor experienced a hard fault error. */
+#define VNERR_NO_ERROR							0	/**< No error occurred. */
+#define VNERR_UNKNOWN_ERROR						1	/**< An unknown error occurred. */
+#define VNERR_NOT_IMPLEMENTED					2	/**< The operation is not implemented. */
+#define VNERR_TIMEOUT							3	/**< Operation timed out. */
+#define VNERR_INVALID_VALUE						4	/**< Invalid value was provided. */
+#define VNERR_FILE_NOT_FOUND					5	/**< The file was not found. */
+#define VNERR_NOT_CONNECTED						6	/**< Not connected to the sensor. */
+#define VNERR_PERMISSION_DENIED					7	/**< Permission is denied. */
+#define VNERR_SENSOR_HARD_FAULT					8	/**< Sensor experienced a hard fault error. */
 #define VNERR_SENSOR_SERIAL_BUFFER_OVERFLOW		9	/**< Sensor experienced a serial buffer overflow error. */
 #define VNERR_SENSOR_INVALID_CHECKSUM			10	/**< Sensor reported an invalid checksum error. */
 #define VNERR_SENSOR_INVALID_COMMAND			11	/**< Sensor reported an invalid command error. */
@@ -62,7 +62,7 @@ typedef uint32_t VN_ERROR_CODE;
 #define VNERR_SENSOR_TOO_MANY_PARAMETERS		13	/**< Sensor reported a too many parameters error. */
 #define VNERR_SENSOR_INVALID_PARAMETER			14	/**< Sensor reported an invalid parameter error. */
 #define VNERR_SENSOR_UNAUTHORIZED_ACCESS		15	/**< Sensor reported an unauthorized access error. */
-#define VNERR_SENSOR_WATCHDOG_RESET			16	/**< Sensor reported a watchdog reset error. */
+#define VNERR_SENSOR_WATCHDOG_RESET				16	/**< Sensor reported a watchdog reset error. */
 #define	VNERR_SENSOR_OUTPUT_BUFFER_OVERFLOW		17	/**< Sensor reported an output buffer overflow error. */
 #define	VNERR_SENSOR_INSUFFICIENT_BAUD_RATE		18	/**< Sensor reported an insufficient baudrate error. */
 #define VNERR_SENSOR_ERROR_BUFFER_OVERFLOW		19	/**< Sensor reported an error buffer overflow error. */

@@ -79,9 +79,6 @@ Link:: <wiki.ros.org/robot_localization/Tutorials/GPS Integration>
 	3.1. It provides a reference for the units and coordinate conventions used within ROS
 	3.2. All Coordinate frames should follow this convention.
 4.Changes needs to be done in <navsat_transform_node> eg parameters needs to be set like roll pitch and yaw offset values and the topics of <imu> ,<gps> and <odometry>
-5.odomN parameters need to be changes to specific input values like what values does <odom1> gives so set those parameters as true. For 2D localization where altitude (z) is zero, 2 setting needs to be done,
-	5.1.Set navsat_transform_node's zero_altitude parameter to true, and then set odomN_config's third value to true.
-	5.2.Set two_d_mode to true.
 
 
 

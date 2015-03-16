@@ -2,8 +2,6 @@
 #include <geometry_msgs/Twist.h>
 #include <roboteq/SetSpeed.h>
 
-//@Rahul:I don't understand why the <pointers> to <NodeHandle> and <Serviceclient> has been used
-
 ros::NodeHandle *n;
 ros::ServiceClient *client;
 

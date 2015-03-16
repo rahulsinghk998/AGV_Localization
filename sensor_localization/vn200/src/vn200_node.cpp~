@@ -178,7 +178,7 @@ sensor_msgs::NavSatFix gps_msg;
 
 gps_msg.header.seq = sequence_id_gps++;
 gps_msg.header.stamp = ros::Time::now();
-gps_msg.header.frame_id = "gps/fix";
+gps_msg.header.frame_id = "raw_gps_data";
 gps_msg.latitude=latitudeLognitudeAltitude.c0;
 gps_msg.longitude=latitudeLognitudeAltitude.c1;
 gps_msg.altitude=latitudeLognitudeAltitude.c2;
@@ -253,7 +253,7 @@ return gps_msg;
 
         imu_msg.header.seq = sequence_id++;
         imu_msg.header.stamp = ros::Time::now();
-        imu_msg.header.frame_id = "imu/data";
+        imu_msg.header.frame_id = "raw_imu_data";
 
         //To do: verify these expressions if they give the right quaternions
         float halfYaw = float(ypr.yaw) * float(0.5);  

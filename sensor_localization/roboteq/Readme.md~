@@ -17,5 +17,25 @@ The <roboteq> package is originally made by its manufacturer. The main objective
 		b)<”motor_speed”> for getting the motor speed.
 
 
+Publishers/Subscribers:
+
+  Subscribers:
+     2. 
+     3. twistTopic: subscriber to twist data
+     4. imuTopic: subscriber to imu data
+
+  Publishers:
+      1.<cmd_vel>	   : publishes the command sent to roboteq
+  
+  Server/Client:
+      1.<motor_controller> :set the motor speed 
+      2.<motor_speed>	   :get the motor speed
+
+
 
 The encoder data is converted to motor velocity keeping the time track and the heading direction and orientation of robot is calculated.The velocity is subscribed by the <ekf_robot_localization> package and to the kalman filter algorithm.The <plot_localization> package plots the raw data values and the filtered ekf data in the GUI using <gnuplot>.
+
+====================================================================================================================================================================================================================
+====================================================================================================================================================================================================================
+
+

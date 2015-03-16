@@ -1,4 +1,4 @@
-#include "robot_localization/navsat_transform.h"
+#include "robot_localization/navsat_transform.h"		//LINK::http://docs.ros.org/indigo/api/robot_localization/html/classRobotLocalization_1_1NavSatTransform.html
 #include "robot_localization/filter_common.h"
 
 #include <tf/tfMessage.h>
@@ -11,54 +11,44 @@
 
 namespace RobotLocalization
 {
-  NavSatTransform::NavSatTransform() :
-    magneticDeclination_(0),
-    utmOdomTfYaw_(0),
-    rollOffset_(0),
-    pitchOffset_(0),
-    yawOffset_(0),
-    broadcastUtmTransform_(false),
-    hasOdom_(false),
-    hasGps_(false),
-    hasImu_(false),
-    transformGood_(false),
-    gpsUpdated_(false),
-    worldFrameId_("odom")
+    NavSatTransform::NavSatTransform() :
+	magneticDeclination_(0),	//Parameter which specify magnetic declination for robot's envir.
+	utmOdomTfYaw_(0),		//Stores the yaw we need to compute the transform
+	rollOffset_(0),			//IMU's roll offset
+	pitchOffset_(0),		//IMU's pitch offset
+	yawOffset_(0),			//IMU's yaw offset
+	broadcastUtmTransform_(false),	//whether or not we broadcast the UTM transform
+	hasOdom_(false),		//signifies that we have an odometry message
+	hasGps_(false),			//whether of not the GPS fix is usable//<=See about it//
+	hasImu_(false),			//Signifies the we have received and IMU message
+	transformGood_(false),		//whether or not we've computed a good heading
+	gpsUpdated_(false),		//Whether or not we have new GPS data
+	worldFrameId_("odom")		//Frame ID of the GPS odometry output
  {
-    latestUtmCovariance_.resize(POSE_SIZE, POSE_SIZE);
+    latestUtmCovariance_.resize(POSE_SIZE, POSE_SIZE);	//Covarience for most recent GPS/UTM data
   }
 
   NavSatTransform::~NavSatTransform()
   {
 
   }
-
-//@RAHUL:: Four Callback Functions for <NAVSAT_TRANSFORM>
+//@RAHUL:: Three Callback Functions for <NAVSAT_TRANSFORM>
 //1.<odomCallback>   :: It requires filtered odometry data
-//2.<gpsFixCallback> :: 
-//3.<imuCallback>    ::
+//2.<gpsFixCallback> :: It requires raw data from GPS which is lat/lon data
+//3.<imuCallback>    :: It requires imu data i.e. absolute heading
 
-
+//*****************************************************************************************************//
+//*****************************************************************************************************//
 
   void NavSatTransform::odomCallback(const nav_msgs::OdometryConstPtr& msg)
   {
-    //file<<msg->pose.pose.position.x<<" "<<msg->pose.pose.position.y<<"\n";
-    //char * commandsForGnuplot[] = {"set title \"TITLEEEEE\"", "plot 'data_filtered.txt' with lines"};
-    
-    //FILE * gnuplotPipe = popen ("gnuplot -persistent", "w");
-    //int i;
-    //for (i=0; i < NUM_COMMANDS; i++){
-	//	fprintf(gnuplotPipe, "%s \n", commandsForGnuplot[i]); //Send commands to gnuplot one by one.
-	//}
-    tf::poseMsgToTF(msg->pose.pose, latestWorldPose_);
+    tf::poseMsgToTF(msg->pose.pose, latestWorldPose_);	//convert Pose msg to Pose
     worldFrameId_ = msg->header.frame_id;
     hasOdom_ = true;
   }
 
-
-
-
-
+//*****************************************************************************************************//
+//*****************************************************************************************************//
 
   void NavSatTransform::gpsFixCallback(const sensor_msgs::NavSatFixConstPtr& msg)
   {
@@ -90,9 +80,8 @@ namespace RobotLocalization
     }
   }
 
-
-
-
+//*****************************************************************************************************//
+//*****************************************************************************************************//
 
   void NavSatTransform::imuCallback(const sensor_msgs::ImuConstPtr& msg)
   {
@@ -100,19 +89,16 @@ namespace RobotLocalization
     hasImu_ = true;
   }
 
+//*****************************************************************************************************//
+//			Computes the transform from the UTM frame to odom frame			       //
+//*****************************************************************************************************//
 
-
-
-  void NavSatTransform::computeTransform()
+  void NavSatTransform::computeTransform()	//Computes the transform from the UTM frame to odom frame
   {
     // Only do this if:
     // 1. We haven't computed the odom_frame->utm_frame transform before
     // 2. We've received the data we need
-    if(!transformGood_ &&
-       hasOdom_ &&
-       hasGps_ &&
-       hasImu_)
-    {
+    if(!transformGood_ && hasOdom_ && hasGps_ && hasImu_){
       // Get the IMU's current RPY values. Need the raw values (for yaw, anyway).
       tf::Matrix3x3 mat(latestOrientation_);
 
@@ -173,12 +159,11 @@ namespace RobotLocalization
       transformGood_ = true;
     }
   }
+//*****************************************************************************************************//
+//			Prepare the GPS odometry message before sending				       //
+//*****************************************************************************************************//
 
-
-
-
-
-  bool NavSatTransform::prepareGpsOdometry(nav_msgs::Odometry &gpsOdom)
+  bool NavSatTransform::prepareGpsOdometry(nav_msgs::Odometry &gpsOdom) 
   {
     bool newData = false;
 
@@ -230,10 +215,8 @@ namespace RobotLocalization
 
     return newData;
   }
-
-
-
-
+//*****************************************************************************************************//
+//*****************************************************************************************************//
 
   void NavSatTransform::run()
   {
@@ -251,8 +234,6 @@ namespace RobotLocalization
 
     ros::Publisher gpsOdomPub = nh.advertise<nav_msgs::Odometry>("odometry/gps", 10);
 
-//@Rahul:Frequency rate must be changed according to our need and sensor specification and system performance.
-
     // Load the parameters we need
     nhPriv.getParam("magnetic_declination_radians", magneticDeclination_);
     nhPriv.getParam("roll_offset", rollOffset_);
@@ -260,6 +241,8 @@ namespace RobotLocalization
     nhPriv.getParam("yaw_offset", yawOffset_);
     nhPriv.param("broadcast_utm_transform", broadcastUtmTransform_, false);
     nhPriv.param("zero_altitude", zeroAltitude_, false);
+
+//@Rahul:Frequency rate must be changed according to our need and sensor specification and system performance.
     nhPriv.param("frequency", frequency, 10.0);
 
     tf::TransformBroadcaster utmBroadcaster;
@@ -306,3 +289,102 @@ namespace RobotLocalization
 
   }
 }
+
+//*****************************************************************************************************//
+//						EXTRA POINTS					       //
+//*****************************************************************************************************//
+
+//Link for <gps_common.h> ::http://docs.ros.org/hydro/api/gps_common/html/conversions_8h.html
+/*
+	Functions Used::
+		static void 	gps_common::LLtoUTM (const double Lat, const double Long, double &UTMNorthing, double &UTMEasting, char *UTMZone)
+	Link::http://docs.ros.org/fuerte/api/tf/html/c++/namespacetf.html
+		static void 	poseMsgToTF (const geometry_msgs::Pose &msg, Pose &bt)
+ 	convert Pose msg to Pose 
+
+
+Important Points for UTM Co-ordinate:: 	1. Mercator Projection :: Cylindrical Map Projection
+					2. Easting and Northing always increase
+					3. Sudden Change in northing about Equator
+					4.
+
+
+
+Public Member Functions
+ 	NavSatTransform ()
+ 	Constructor.
+void 	run ()
+ 	Main run loop.
+ 	~NavSatTransform ()
+ 	Destructor.
+Private Member Functions
+void 	computeTransform ()
+ 	Computes the transform from the UTM frame to the odom frame.
+void 	gpsFixCallback (const sensor_msgs::NavSatFixConstPtr &msg)
+ 	Callback for the GPS fix data.
+void 	imuCallback (const sensor_msgs::ImuConstPtr &msg)
+ 	Callback for the IMU data.
+void 	odomCallback (const nav_msgs::OdometryConstPtr &msg)
+ 	Callback for the odom data.
+bool 	prepareGpsOdometry (nav_msgs::Odometry &gpsOdom)
+ 	Prepares the GPS odometry message before sending.
+Private Attributes
+bool 	broadcastUtmTransform_
+ 	Whether or not we broadcast the UTM transform.
+bool 	gpsUpdated_
+ 	Whether or not we have new GPS data.
+ros::Time 	gpsUpdateTime_
+ 		Timestamp of the latest good GPS message.
+bool 	hasGps_
+ 	Whether or not the GPS fix is usable.
+bool 	hasImu_
+ 	Signifies that we have received an IMU message.
+bool 	hasOdom_
+ 	Signifies that we have an odometry message.
+tf::Quaternion 	latestOrientation_
+ 		Latest IMU orientation.
+Eigen::MatrixXd latestUtmCovariance_
+ 		Covariane for most recent GPS/UTM data.
+tf::Pose 	latestUtmPose_
+ 		Latest GPS data, stored as UTM coords.
+tf::Pose 	latestWorldPose_
+ 		Latest odometry data.
+double 	magneticDeclination_
+ 	Parameter that specifies the magnetic decliation for the robot's environment.
+double 	pitchOffset_
+ 	IMU's pitch offset.
+double 	rollOffset_
+ 	IMU's roll offset.
+bool 	transformGood_
+ 	Whether or not we've computed a good heading.
+double 	utmOdomTfPitch_
+ 	Stores the pitch we need to compute the transform.
+double 	utmOdomTfRoll_
+ 	Stores the roll we need to compute the transform.
+double 	utmOdomTfYaw_
+ 	Stores the yaw we need to compute the transform.
+tf::Transform 	utmWorldTransform_
+ 		Holds the UTM->odom transform.
+std::string 	worldFrameId_
+ 		Frame ID of the GPS odometry output.
+double 	yawOffset_
+ 	IMU's yaw offset.
+bool 	zeroAltitude_
+ 	Whether or not to report 0 altitude. 
+
+
+
+
+
+
+    //file<<msg->pose.pose.position.x<<" "<<msg->pose.pose.position.y<<"\n";
+    //char * commandsForGnuplot[] = {"set title \"TITLEEEEE\"", "plot 'data_filtered.txt' with lines"};
+    
+    //FILE * gnuplotPipe = popen ("gnuplot -persistent", "w");
+    //int i;
+    //for (i=0; i < NUM_COMMANDS; i++){
+	//	fprintf(gnuplotPipe, "%s \n", commandsForGnuplot[i]); //Send commands to gnuplot one by one.
+	//}
+
+//*****************************************************************************************************//
+//*****************************************************************************************************//
